@@ -10,6 +10,7 @@ import (
 func SearchVideos(c *fiber.Ctx) error {
 	query := c.Query("q")
 
+	// Search videos by title, description or channel title
 	var videos []models.Video
 	result := database.Database.Db.
 		Where("video_title ILIKE ?", "%"+query+"%").

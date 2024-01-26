@@ -13,6 +13,7 @@ import (
 var currentKeyIndex int = 0
 
 func getNextApiKey(apiKeys []string) string {
+	// Cycle through API keys when the current one is exhausted
 	if currentKeyIndex >= len(apiKeys) {
 		currentKeyIndex = 0
 	}
@@ -23,6 +24,7 @@ func getNextApiKey(apiKeys []string) string {
 }
 
 func InitYoutubeClient() *youtube.Service {
+	// Gets the next API key from the list of API keys
 	apiKey := getNextApiKey(strings.Split(os.Getenv("API_KEYS"), ","))
 
 	client := &http.Client{
