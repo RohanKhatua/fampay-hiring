@@ -24,3 +24,5 @@ go.work
 .db
 
 tmp
+
+client_secret.json

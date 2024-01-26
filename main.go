@@ -2,20 +2,43 @@ package main
 
 import (
 	"log"
+	"yt_api/database"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
-func setupRoutes(app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 👋!")
-	})
-}
-
 func main() {
+	err := godotenv.Load(".env")
 
-	app := fiber.New()
-	setupRoutes(app)
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 
-	log.Fatal(app.Listen(":3000"))
+	// apiKey := os.Getenv("API_KEY")
+
+	// client := &http.Client{
+	// 	Transport: &transport.APIKey{Key: apiKey},
+	// }
+
+	// service, err := youtube.New(client)
+
+	if err != nil {
+		log.Fatalf("Error creating new YouTube client: %v", err)
+	}
+
+	database.ConnectToDB()
+
+	// arr := []string{"id", "snippet"}
+
+	// call := service.Search.List(arr).Q("Google").MaxResults(25).Type("video")
+
+	// response, err := call.Do()
+
+	// if err != nil {
+	// 	log.Fatalf("Error making search API call: %v", err)
+	// }
+
+	// for _, item := range response.Items {
+	// 	log.Printf("Video: %v, %v", item.Snippet.Title, item.Id.VideoId)
+	// }
 }
