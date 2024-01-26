@@ -13,6 +13,7 @@ import (
 
 func setupRoutes(app *fiber.App) {
 	app.Get("/api/videos", routes.GetVideos)
+	app.Get("/api/videos/search", routes.SearchVideos)
 }
 
 func main() {
