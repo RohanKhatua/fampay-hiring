@@ -10,6 +10,14 @@
 
 - Fiber : Fiber is an Express.js inspired web framework written in Go
 
+## Features
+
+- [x] Fetches videos from Youtube API and stores them in the database (performs batching to improve performance).
+
+- [x] Provides an API to get the list of videos in reverse chronological order of their publishing date in a paginated response.
+
+- [x] Provides an API to search for videos by their title, description or channel.
+
 ## Setup
 
 1. Clone the repository
