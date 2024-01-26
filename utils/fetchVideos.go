@@ -17,7 +17,7 @@ func FetchVideos(service *youtube.Service) {
 	for {
 		select {
 		case <-ticker.C:
-			call := service.Search.List(callArr).Q("asmr").MaxResults(10).Type("video")
+			call := service.Search.List(callArr).Q("asmr").MaxResults(10).Type("video").Order("date").PublishedAfter(time.Now().AddDate(0, 0, -5).Format(time.RFC3339))
 			response, err := call.Do()
 
 			if err.Error() == "googleapi: Error 403: The request cannot be completed because you have exceeded your <a href=\"/youtube/v3/getting-started#quota\">quota</a>., quotaExceeded" {
