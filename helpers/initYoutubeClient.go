@@ -4,13 +4,26 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"google.golang.org/api/googleapi/transport"
 	"google.golang.org/api/youtube/v3"
 )
 
+var currentKeyIndex int = 0
+
+func getNextApiKey(apiKeys []string) string {
+	if currentKeyIndex >= len(apiKeys) {
+		currentKeyIndex = 0
+	}
+
+	key := apiKeys[currentKeyIndex]
+	currentKeyIndex++
+	return key
+}
+
 func InitYoutubeClient() *youtube.Service {
-	apiKey := os.Getenv("API_KEY")
+	apiKey := getNextApiKey(strings.Split(os.Getenv("API_KEYS"), ","))
 
 	client := &http.Client{
 		Transport: &transport.APIKey{Key: apiKey},

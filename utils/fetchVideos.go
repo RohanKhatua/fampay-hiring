@@ -20,7 +20,11 @@ func FetchVideos(service *youtube.Service) {
 			call := service.Search.List(callArr).Q("asmr").MaxResults(10).Type("video")
 			response, err := call.Do()
 
-			if err != nil {
+			if err.Error() == "googleapi: Error 403: The request cannot be completed because you have exceeded your <a href=\"/youtube/v3/getting-started#quota\">quota</a>., quotaExceeded" {
+				log.Printf("Quota exceeded, switching to next API key")
+				service = helpers.InitYoutubeClient()
+				continue
+			} else if err != nil {
 				log.Printf("Error making search API call: %v", err)
 				continue
 			}
@@ -37,14 +41,14 @@ func FetchVideos(service *youtube.Service) {
 				videosBatch = append(videosBatch, *video)
 
 				if len(videosBatch) >= batchSize {
-					StoreVideos(videosBatch)
+					go StoreVideos(videosBatch)    // Using a goroutine
 					videosBatch = []models.Video{} // Reset the batch
 				}
 			}
 
 			// Store any remaining videos in the last batch
 			if len(videosBatch) > 0 {
-				StoreVideos(videosBatch)
+				go StoreVideos(videosBatch) // Using a goroutine
 			}
 		}
 	}
